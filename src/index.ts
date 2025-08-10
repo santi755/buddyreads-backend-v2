@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 // Ruta de prueba
 app.get('/', (_req: Request, res: Response) => {
   res.json({
-    message: '¡BuddyReads Backend v2 funcionando correctamente!',
+    message: '¡BuddyReads Backend v2 funcionando correctamente con Docker!',
     timestamp: new Date().toISOString(),
     environment: process.env['NODE_ENV'] || 'development',
   });

@@ -8,3 +8,8 @@ run:
 
 bash:
 	docker exec -it buddyreads-backend-v2-app-1 bash
+
+#clean:
+#	docker stop $(docker ps -aq)
+#	docker rm $(docker ps -aq)
+#	docker rmi $(docker images -q)

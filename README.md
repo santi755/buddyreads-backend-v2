@@ -1,5 +1,6 @@
 # BuddyReads Backend v2
 
+- Ver que es inversify y cómo funciona. Y para qué es útil en un proyecto de node con express
 - EventBus en express para mensajes sicronos y asincronos
 - Jobs con Agenda
 - Validaciones con Zod

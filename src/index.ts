@@ -1,6 +1,9 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import type { Request, Response } from 'express';
+import { RegisterController } from '#root/src/AuthContext/infrastructure/controller/RegisterController.ts';
+
+RegisterController();
 
 // Configurar variables de entorno
 dotenv.config();

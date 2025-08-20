@@ -2,7 +2,7 @@
 
 A modern backend application for BuddyReads built with Clean Architecture principles, TypeScript, and Express.js.
 
-## 🚀 Technologies
+## Technologies
 
 - **Runtime**: Node.js 22+
 - **Language**: TypeScript
@@ -13,7 +13,7 @@ A modern backend application for BuddyReads built with Clean Architecture princi
 - **Development**: Docker, nodemon, tsx
 - **Architecture**: Clean Architecture (DDD)
 
-## 🏗️ Architecture
+## Architecture
 
 This project follows **Clean Architecture** principles with **Domain-Driven Design (DDD)**:
 
@@ -38,7 +38,7 @@ The application uses a hierarchical error system:
 - **ApplicationError**: Use case and workflow violations
 - **Global Error Handler**: Centralized error processing
 
-## 📋 TODO
+## TODO
 
 - [ ] EventBus in Express for synchronous and asynchronous messaging
 - [ ] Job scheduling with Agenda.js

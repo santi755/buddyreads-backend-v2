@@ -4,6 +4,7 @@ import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository
 import { User } from '#root/src/AuthContext/domain/user/User';
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
+import { UserIdAlreadyExistsError } from '#root/src/AuthContext/application/errors/UserIdAlreadyExistsError.ts';
 
 interface UserDocument {
   _id: string; // UUID como string
@@ -22,13 +23,20 @@ export class MongoUserRepository implements UserRepository {
   }
 
   async save(user: User): Promise<void> {
-    await this.collection.insertOne({
-      _id: user.id.value,
-      email: user.email,
-      password: user.password,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    });
+    try {
+      await this.collection.insertOne({
+        _id: user.id.value,
+        email: user.email,
+        password: user.password,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      });
+    } catch (error: any) {
+      if (error.code === 11000) {
+        throw new UserIdAlreadyExistsError();
+      }
+      throw error;
+    }
   }
 
   async findByEmail(email: string): Promise<User | null> {

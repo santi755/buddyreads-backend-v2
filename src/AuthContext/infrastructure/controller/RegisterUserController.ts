@@ -19,12 +19,19 @@ export class RegisterUserController {
     bodySchema: RegisterUserSchema,
     successStatus: 201,
   })
-  async execute(body: RegisterUserDTO): Promise<void> {
+  async execute(
+    body: RegisterUserDTO
+  ): Promise<{ success: boolean; message: string }> {
     const command = RegisterUserCommand.create(
       body.id,
       body.email,
       body.password
     );
     await this.registerUserCommandHandler.handle(command);
+
+    return {
+      success: true,
+      message: 'User registered successfully',
+    };
   }
 }

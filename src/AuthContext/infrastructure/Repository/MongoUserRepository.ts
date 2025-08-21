@@ -52,4 +52,18 @@ export class MongoUserRepository implements UserRepository {
       user['password']
     );
   }
+
+  async findByGoogleId(googleId: string): Promise<User | null> {
+    const user = await this.collection.findOne({ googleId });
+
+    if (!user) {
+      return null;
+    }
+
+    return User.create(
+      UserId.fromString(user['_id'].toString()),
+      user['email'],
+      user['password']
+    );
+  }
 }

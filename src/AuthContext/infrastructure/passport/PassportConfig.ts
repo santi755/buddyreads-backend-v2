@@ -29,7 +29,13 @@ export function configureGoogleStrategy(container: Container) {
           );
 
           await commandHandler.handle(command);
-          return done(null, { id: profile.id });
+          return done(null, {
+            id: profile.id,
+            email: profile.emails![0].value,
+            provider: 'google',
+            name: profile.displayName,
+            avatar: profile.photos![0].value,
+          });
         } catch (error) {
           return done(error, null);
         }

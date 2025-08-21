@@ -10,9 +10,11 @@ export class JwtService {
   generateToken(user: User): string {
     return jwt.sign(
       {
-        userId: user.id.value,
+        userId: user.id,
         email: user.email,
         provider: user.provider,
+        name: user.name,
+        avatar: user.avatar,
       },
       this.secret,
       { expiresIn: '7d' }

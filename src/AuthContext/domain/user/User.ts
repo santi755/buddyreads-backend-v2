@@ -1,5 +1,10 @@
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 
+export const USER_PROVIDER = {
+  LOCAL: 'local',
+  GOOGLE: 'google',
+};
+
 export class User {
   public readonly id: UserId;
   public readonly email: string;
@@ -7,7 +12,7 @@ export class User {
   public readonly googleId: string | null;
   public readonly name: string | null;
   public readonly avatar: string | null;
-  public readonly provider: 'local' | 'google';
+  public readonly provider: string;
   public readonly createdAt: Date;
   public readonly updatedAt: Date;
 
@@ -18,7 +23,7 @@ export class User {
     googleId: string | null,
     name: string | null,
     avatar: string | null,
-    provider: 'local' | 'google',
+    provider: string,
     createdAt: Date,
     updatedAt: Date
   ) {
@@ -41,7 +46,7 @@ export class User {
       null,
       null,
       null,
-      'local',
+      USER_PROVIDER.LOCAL,
       new Date(),
       new Date()
     );
@@ -61,7 +66,7 @@ export class User {
       googleId,
       name,
       avatar,
-      'google',
+      USER_PROVIDER.GOOGLE,
       new Date(),
       new Date()
     );

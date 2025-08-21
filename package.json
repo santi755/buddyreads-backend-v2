@@ -29,6 +29,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.2",
+    "winston": "^3.17.0",
     "zod": "^4.0.15"
   },
   "devDependencies": {
@@ -41,6 +42,7 @@
     "@types/node": "^22.10.2",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.16",
+    "@types/winston": "^2.4.4",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",

@@ -2,6 +2,7 @@ import { Container } from 'inversify';
 import { createMongoConnection } from '#root/src/Shared/infrastructure/persistence/mongodb/MongoClientFactory.ts';
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { bindAuthContextContext } from '#root/src/AuthContext/infrastructure/dependency-injection/AuthContextContainer.ts';
+import { WinstonLogger } from '#root/src/Shared/infrastructure/logger/winston/WinstonLogger.ts';
 
 export async function createAppContainer() {
   try {
@@ -9,6 +10,9 @@ export async function createAppContainer() {
 
     const db = await createMongoConnection();
     container.bind(TYPES.Database).toConstantValue(db);
+
+    const logger = new WinstonLogger();
+    container.bind(TYPES.Logger).toConstantValue(logger);
 
     bindAuthContextContext(container);
 

@@ -13,6 +13,18 @@ export const authRoutes: RouteDefinition[] = [
     path: '/register',
     controller: TYPES.RegisterUserController,
   },
+  {
+    method: 'get',
+    path: '/google',
+    controller: TYPES.GoogleAuthController,
+    action: 'login',
+  },
+  {
+    method: 'get',
+    path: '/google/callback',
+    controller: TYPES.GoogleAuthController,
+    action: 'callback',
+  },
 ];
 
 export function buildAuthRouter(app: Express, container: Container) {

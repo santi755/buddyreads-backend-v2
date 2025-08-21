@@ -1,10 +1,15 @@
 import 'reflect-metadata';
 import dotenv from 'dotenv';
 import express from 'express';
+import session from 'express-session';
+import passport from 'passport';
+
+import { env } from '#root/config/env.ts';
 import type { Request, Response } from 'express';
 import { createAppContainer } from '#root/src/Shared/infrastructure/dependency-injection/Container.ts';
 import { buildAuthRouter } from '#root/src/AuthContext/infrastructure/http/AuthContextRoutes.ts';
 import { errorHandler } from '#root/src/Shared/application/ErrorHandler.ts';
+import { configureGoogleStrategy } from '#root/src/AuthContext/infrastructure/passport/PassportConfig.ts';
 
 process.on('uncaughtException', (error) => {
   console.error('❌ Uncaught Exception:', error);
@@ -21,12 +26,33 @@ async function startServer() {
     dotenv.config();
 
     const app = express();
-    const port = process.env['PORT'] || 3000;
+    const port = env.PORT || 3000;
 
+    // 1. Basic middleware
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
+    // 2. Session middleware
+    app.use(
+      session({
+        secret: env.SESSION_SECRET || 'your-session-secret',
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          secure: false,
+        },
+      })
+    );
+
+    // 3. Passport configuration
+    app.use(passport.initialize());
+    app.use(passport.session());
+
+    // 4. Create container and strategies
     const container = await createAppContainer();
+    configureGoogleStrategy(container);
+
+    // 5. Routes
     buildAuthRouter(app, container);
 
     app.get('/health', (_req: Request, res: Response) => {

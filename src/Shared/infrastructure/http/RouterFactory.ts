@@ -5,6 +5,7 @@ export interface RouteDefinition {
   method: 'get' | 'post' | 'put' | 'delete' | 'patch';
   path: string;
   controller: symbol;
+  action?: string;
 }
 
 export function createRouter(
@@ -13,16 +14,19 @@ export function createRouter(
 ): Router {
   const router = Router();
 
-  routeDefinitions.forEach(({ method, path, controller }) => {
-    const controllerInstance = container.get(controller);
-    router[method](path, async (req, res, next) => {
-      try {
-        await controllerInstance.execute(req, res, next);
-      } catch (error) {
-        next(error);
-      }
-    });
-  });
+  routeDefinitions.forEach(
+    ({ method, path, controller, action = 'execute' }) => {
+      const controllerInstance = container.get(controller);
+      router[method](path, async (req, res, next) => {
+        try {
+          console.log('--- Action ---', action);
+          await controllerInstance[action](req, res, next);
+        } catch (error) {
+          next(error);
+        }
+      });
+    }
+  );
 
   return router;
 }

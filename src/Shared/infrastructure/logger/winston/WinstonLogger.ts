@@ -8,32 +8,79 @@ export class WinstonLogger implements Logger {
   private readonly logger: winston.Logger;
 
   constructor() {
+    // Formato específico para Loki
+    const lokiFormat = winston.format.combine(
+      winston.format.timestamp(),
+      winston.format.errors({ stack: true }),
+      winston.format.json(),
+      winston.format.printf((info) => {
+        // Asegurar que todos los campos estén en el nivel raíz para Loki
+        const logEntry = {
+          timestamp: info.timestamp,
+          level: info.level,
+          service: info.service || 'buddyreads-backend',
+          environment: process.env.NODE_ENV || 'development',
+          message: info.message,
+          ...info,
+        };
+
+        return JSON.stringify(logEntry);
+      })
+    );
     this.logger = winston.createLogger({
       level: env.LOG_LEVEL || 'info',
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.errors({ stack: true }),
-        winston.format.json()
-      ),
-      defaultMeta: { service: 'buddyreads-backend' },
+      format: lokiFormat,
+      defaultMeta: {
+        service: 'buddyreads-backend',
+        version: process.env.npm_package_version || '1.0.0',
+      },
       transports: [
+        // ✅ Archivo específico para errores (para Loki)
         new winston.transports.File({
           filename: 'logs/error.log',
           level: 'error',
         }),
+        // ✅ Archivo para todos los logs
         new winston.transports.File({
           filename: 'logs/combined.log',
+        }),
+        // ✅ Archivo específico para access logs
+        new winston.transports.File({
+          filename: 'logs/access.log',
+          level: 'info',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.json(),
+            winston.format.printf((info) => {
+              // Solo logs HTTP
+              if (info.message === 'HTTP Request' || info.http_method) {
+                return JSON.stringify({
+                  timestamp: info.timestamp,
+                  level: info.level,
+                  service: 'buddyreads-backend',
+                  log_type: 'access',
+                  ...info,
+                });
+              }
+              return ''; // No escribir otros logs en access.log
+            })
+          ),
         }),
       ],
     });
 
-    // En desarrollo, también log a consola
     if (process.env.NODE_ENV !== 'production') {
       this.logger.add(
         new winston.transports.Console({
           format: winston.format.combine(
             winston.format.colorize(),
-            winston.format.simple()
+            winston.format.timestamp({ format: 'HH:mm:ss' }),
+            winston.format.printf(({ timestamp, level, message, ...meta }) => {
+              const metaStr = Object.keys(meta).length
+                ? `\n${JSON.stringify(meta, null, 2)}`
+                : '';
+              return `${timestamp} [${level}]: ${message}${metaStr}`;
+            })
           ),
         })
       );
@@ -86,6 +133,18 @@ export class WinstonLogger implements Logger {
       statusCode,
       duration,
       timestamp: new Date().toISOString(),
+    });
+  }
+
+  logStructured(
+    level: string,
+    message: string,
+    data: Record<string, any>
+  ): void {
+    this.logger.log(level, message, {
+      ...data,
+      timestamp: new Date().toISOString(),
+      log_type: 'structured',
     });
   }
 }

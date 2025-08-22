@@ -10,6 +10,7 @@ import { createAppContainer } from '#root/src/Shared/infrastructure/dependency-i
 import { buildAuthRouter } from '#root/src/AuthContext/infrastructure/http/AuthContextRoutes.ts';
 import { errorHandler } from '#root/src/Shared/application/ErrorHandler.ts';
 import { configureGoogleStrategy } from '#root/src/AuthContext/infrastructure/passport/PassportConfig.ts';
+import { createErrorLoggingMiddleware } from '#root/src/Shared/infrastructure/logger/winston/ErrorLogginMiddleware.ts';
 
 process.on('uncaughtException', (error) => {
   console.error('❌ Uncaught Exception:', error);
@@ -63,6 +64,7 @@ async function startServer() {
       });
     });
 
+    app.use(createErrorLoggingMiddleware(container) as any);
     app.use(errorHandler);
 
     app.listen(port, () => {

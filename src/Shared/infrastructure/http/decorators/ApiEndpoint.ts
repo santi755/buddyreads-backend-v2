@@ -38,11 +38,19 @@ export function ApiEndpoint<TBody = any>(
               message: err.message,
             }));
 
+            /*
             return res.status(400).json({
               success: false,
               message: 'Validation failed',
               errors,
             });
+            */
+
+            const validationError = new Error('Validation failed');
+            (validationError as any).statusCode = 400;
+            (validationError as any).code = 'VALIDATION_ERROR';
+            (validationError as any).details = errors;
+            return next(validationError);
           }
 
           validatedBody = parseResult.data;

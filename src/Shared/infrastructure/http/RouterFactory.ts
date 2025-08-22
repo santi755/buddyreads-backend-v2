@@ -22,6 +22,7 @@ export function createRouter(
           console.log('--- Action ---', action);
           await controllerInstance[action](req, res, next);
         } catch (error) {
+          console.log('--- Error ---', error);
           next(error);
         }
       });

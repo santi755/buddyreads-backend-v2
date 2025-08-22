@@ -3,3 +3,4 @@ node_modules
 
 logs/error.log
 logs/combined.log
+logs/access.log

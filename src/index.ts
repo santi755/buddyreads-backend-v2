@@ -64,8 +64,8 @@ async function startServer() {
       });
     });
 
-    app.use(createErrorLoggingMiddleware(container) as any);
-    app.use(errorHandler);
+    //app.use(createErrorLoggingMiddleware(container) as any);
+    //app.use(errorHandler);
 
     app.listen(port, () => {
       console.log(`🚀 Servidor funcionando en el puerto ${port}`);

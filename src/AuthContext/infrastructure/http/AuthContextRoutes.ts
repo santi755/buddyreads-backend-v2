@@ -7,6 +7,11 @@ import {
 } from '#root/src/Shared/infrastructure/http/RouterFactory.ts';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
 
+export function buildAuthRouter(app: Express, container: Container) {
+  const router = createRouter(container, authRoutes);
+  app.use('/api/auth', router);
+}
+
 export const authRoutes: RouteDefinition[] = [
   {
     method: 'post',
@@ -26,8 +31,3 @@ export const authRoutes: RouteDefinition[] = [
     action: 'callback',
   },
 ];
-
-export function buildAuthRouter(app: Express, container: Container) {
-  const router = createRouter(container, authRoutes);
-  app.use('/api/auth', router);
-}

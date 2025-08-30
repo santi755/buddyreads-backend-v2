@@ -10,6 +10,9 @@ services:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongodb:27017/buddyreads
     command: npm run dev
+    depends_on:
+      - mongodb
+      - postgres
 
   mongodb:
     image: mongo
@@ -17,6 +20,18 @@ services:
       - mongo_data:/data/db
     ports:
       - '27017:27017'
+      
+  postgres:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=buddyreads
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
 
 volumes:
   mongo_data:
+  postgres_data:

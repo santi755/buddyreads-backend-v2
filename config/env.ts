@@ -10,4 +10,7 @@ export const env = {
   GOOGLE_CALLBACK_URL: process.env['GOOGLE_CALLBACK_URL'],
   SESSION_SECRET: process.env['SESSION_SECRET'],
   LOG_LEVEL: process.env['LOG_LEVEL'],
+  POSTGRES_DB: process.env['POSTGRES_DB'],
+  POSTGRES_USER: process.env['POSTGRES_USER'],
+  POSTGRES_PASSWORD: process.env['POSTGRES_PASSWORD'],
 };

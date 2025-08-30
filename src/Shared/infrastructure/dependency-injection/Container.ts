@@ -3,6 +3,7 @@ import { createMongoConnection } from '#root/src/Shared/infrastructure/persisten
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { bindAuthContextContext } from '#root/src/AuthContext/infrastructure/dependency-injection/AuthContextContainer.ts';
 import { WinstonLogger } from '#root/src/Shared/infrastructure/logger/winston/WinstonLogger.ts';
+import { createPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
 
 export async function createAppContainer() {
   try {
@@ -13,6 +14,9 @@ export async function createAppContainer() {
 
     const logger = new WinstonLogger();
     container.bind(TYPES.Logger).toConstantValue(logger);
+
+    const postgresConnection = createPostgresConnection();
+    container.bind(TYPES.PostgresConnection).toConstantValue(postgresConnection); 
 
     bindAuthContextContext(container);
 

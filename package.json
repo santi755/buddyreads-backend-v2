@@ -20,6 +20,7 @@
   "description": "",
   "dependencies": {
     "@mikro-orm/core": "^6.5.1",
+    "@mikro-orm/migrations": "^6.5.2",
     "@mikro-orm/postgresql": "^6.5.1",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
@@ -38,6 +39,7 @@
     "@eslint/css": "^0.10.0",
     "@eslint/json": "^0.13.1",
     "@eslint/markdown": "^7.1.0",
+    "@mikro-orm/cli": "^6.5.2",
     "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",

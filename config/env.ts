@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const env = {
-  NODE_ENV: process.env['NODE_ENV'],
+  NODE_ENV: process.env['NODE_ENV'] || 'development',
   PORT: process.env['PORT'],
   MONGODB_URI: process.env['MONGODB_URI'],
   GOOGLE_CLIENT_ID: process.env['GOOGLE_CLIENT_ID'],

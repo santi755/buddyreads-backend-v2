@@ -1,14 +1,19 @@
 services:
   app:
-    build: .
+    build: 
+      context: .
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
     ports:
       - '8080:8080'
     volumes:
       - .:/app
-      - /app/node_modules
+      - node_modules_volume:/app/node_modules  # Volumen nombrado
     environment:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongodb:27017/buddyreads
+      - DATABASE_URL=postgres://postgres:password@postgres:5432/buddyreads
     command: npm run dev
     depends_on:
       - mongodb
@@ -35,3 +40,4 @@ services:
 volumes:
   mongo_data:
   postgres_data:
+  node_modules_volume:  # Nuevo volumen para node_modules

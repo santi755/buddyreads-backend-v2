@@ -1,35 +1,31 @@
-import { env } from "#root/config/env.ts";
-import { PrismaClient } from '@prisma/client';
+import { MikroORM } from '@mikro-orm/core';
+import { mikroOrmConfig } from '#root/src/Shared/infrastructure/persistence/mikroorm/MikroOrmConfig.ts';
 
-let prismaClient: PrismaClient | null = null;
+let mikroOrm: MikroORM | null = null;
 
-export function createPostgresConnection(): PrismaClient {
-  if (!prismaClient) {
-    prismaClient = new PrismaClient({
-      datasources: {
-        db: {
-          url: env.POSTGRES_DB,
-          user: env.POSTGRES_USER,
-          password: env.POSTGRES_PASSWORD,
-        },
-      },
-      log: ['query', 'info', 'warn', 'error'],
-    });
+export async function createPostgresConnection(): Promise<MikroORM> {
+  if (!mikroOrm) {
+    mikroOrm = await MikroORM.init(mikroOrmConfig);
   }
 
-  return prismaClient;
+  return mikroOrm;
 }
 
-export function getPostgresConnection(): PrismaClient {
-  if (!prismaClient) {
+export function getPostgresConnection(): MikroORM {
+  if (!mikroOrm) {
     throw new Error('PostgreSQL connection not initialized. Call createPostgresConnection() first.');
   }
-  return prismaClient;
+  return mikroOrm;
 }
 
 export async function closePostgresConnection(): Promise<void> {
-  if (prismaClient) {
-    await prismaClient.$disconnect();
-    prismaClient = null;
+  if (mikroOrm) {
+    await mikroOrm.close();
+    mikroOrm = null;
   }
+}
+
+export async function runMigrations(): Promise<void> {
+  const orm = await createPostgresConnection();
+  await orm.getMigrator().up();
 }

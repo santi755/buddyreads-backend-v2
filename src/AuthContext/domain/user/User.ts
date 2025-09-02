@@ -38,7 +38,20 @@ export class User {
     this.updatedAt = updatedAt;
   }
 
-  static create(id: UserId, email: string, password: string): User {
+  static create(    
+    id: UserId,
+    email: string,
+    password: string | null,
+    googleId: string | null,
+    name: string | null,
+    avatar: string | null,
+    provider: string,
+    createdAt: Date,
+    updatedAt: Date): User {
+    return new User(id, email, password, googleId, name, avatar, provider, createdAt, updatedAt);
+  }
+
+  static register(id: UserId, email: string, password: string): User {
     return new User(
       id,
       email,

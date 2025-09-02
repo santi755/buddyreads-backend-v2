@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export const env = {
+  NODE_ENV: process.env['NODE_ENV'],
   PORT: process.env['PORT'],
   MONGODB_URI: process.env['MONGODB_URI'],
   GOOGLE_CLIENT_ID: process.env['GOOGLE_CLIENT_ID'],
@@ -13,4 +14,6 @@ export const env = {
   POSTGRES_DB: process.env['POSTGRES_DB'],
   POSTGRES_USER: process.env['POSTGRES_USER'],
   POSTGRES_PASSWORD: process.env['POSTGRES_PASSWORD'],
+  POSTGRES_URI: process.env['POSTGRES_URI'],
+  DATABASE_URL: process.env['DATABASE_URL'],
 };

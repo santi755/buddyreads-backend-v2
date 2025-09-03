@@ -1,13 +1,18 @@
-# Build the Docker image
 build:
 	docker compose build
 
-# Run the Docker container
-run:
+up:
 	docker compose up
 
-stop:
+down:
 	docker compose down
+
+logs:
+	docker compose logs -f
+
+reset:
+	docker compose down -v
+	docker compose up -d
 
 bash:
 	docker exec -it buddyreads-backend-v2-app-1 bash
@@ -23,12 +28,6 @@ postgres-bash:
 
 prisma-generate:
 	docker exec -it buddyreads-backend-v2-app-1 npx prisma generate
-
-# make prisma-create-migration NAME=init
-# FIX THIS: https://chatgpt.com/share/68b328dd-d0c8-8010-a52c-f29da76c666c
-prisma-create-migration:
-	docker exec -it buddyreads-backend-v2-app-1 npx prisma migrate dev --name ${NAME}
-
 
 #clean:
 #	docker stop $(docker ps -aq)

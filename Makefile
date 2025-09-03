@@ -6,6 +6,9 @@ build:
 run:
 	docker compose up
 
+stop:
+	docker compose down
+
 bash:
 	docker exec -it buddyreads-backend-v2-app-1 bash
 

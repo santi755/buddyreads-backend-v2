@@ -1,19 +1,23 @@
-#FROM node:22
 FROM node:22-bullseye
 
 RUN groupadd -r appuser && useradd -r -g appuser appuser
 
 WORKDIR /app
-RUN chown -R appuser:appuser /app
 
+# Copiar solo package.json primero
 COPY package*.json ./
-RUN chown -R appuser:appuser /app
 
+# Instalar dependencias como root
 RUN npm install
 
+# Copiar código fuente
 COPY . .
-RUN chown -R appuser:appuser /app
 
+# Crear directorio para logs y dar permisos
+RUN mkdir -p /app/logs && \
+    chown -R appuser:appuser /app
+
+# Cambiar al usuario no-root
 USER appuser
 
 EXPOSE 8080

@@ -1,5 +1,4 @@
 import { injectable, inject } from 'inversify';
-import { EntityRepository } from '@mikro-orm/postgresql';
 import { User as DomainUser } from '#root/src/AuthContext/domain/user/User.ts';
 import { UserEntity } from '#root/src/AuthContext/infrastructure/persistence/entities/User.entity.ts';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
@@ -40,7 +39,6 @@ export class MikroOrmUserRepository implements UserRepository {
       mikroUser.name ?? null,
       mikroUser.avatar ?? null,
       mikroUser.provider,
-      mikroUser.tokenVersion,
       mikroUser.createdAt,
       mikroUser.updatedAt
     );

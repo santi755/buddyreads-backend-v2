@@ -2,7 +2,7 @@ import { defineConfig } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 import { env } from '#root/config/env.ts';
 
-export const mikroOrmConfig = defineConfig({
+const mikroOrmConfig = defineConfig({
   driver: PostgreSqlDriver,
   dbName: 'buddyreads',
   host: 'postgres',
@@ -22,3 +22,5 @@ export const mikroOrmConfig = defineConfig({
   debug: env.NODE_ENV === 'development',
   logger: (message) => console.log(message),
 });
+
+export default mikroOrmConfig;

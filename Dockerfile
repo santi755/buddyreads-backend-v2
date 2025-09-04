@@ -13,9 +13,15 @@ RUN npm ci
 # Copiar código fuente
 COPY . .
 
-# Crear directorio para logs y dar permisos
-RUN mkdir -p /app/logs && \
-    chown -R appuser:appuser /app
+# ✅ Crear todos los directorios que MikroORM podría necesitar
+RUN mkdir -p /app/temp \
+    && mkdir -p /app/logs \
+    && mkdir -p /app/dist \
+    && mkdir -p /app/src/migrations \
+    && chown -R appuser:appuser /app
+
+# ✅ Dar permisos de escritura completos al directorio de la app
+RUN chmod -R 755 /app
 
 # Cambiar al usuario no-root
 USER appuser

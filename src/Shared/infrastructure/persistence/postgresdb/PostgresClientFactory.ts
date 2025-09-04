@@ -1,5 +1,5 @@
 import { MikroORM } from '@mikro-orm/core';
-import { mikroOrmConfig } from '#root/src/Shared/infrastructure/persistence/mikroorm/MikroOrmConfig.ts';
+import mikroOrmConfig from '#root/src/mikro-orm.config.ts';
 
 let mikroOrm: MikroORM | null = null;
 
@@ -13,7 +13,9 @@ export async function createPostgresConnection(): Promise<MikroORM> {
 
 export function getPostgresConnection(): MikroORM {
   if (!mikroOrm) {
-    throw new Error('PostgreSQL connection not initialized. Call createPostgresConnection() first.');
+    throw new Error(
+      'PostgreSQL connection not initialized. Call createPostgresConnection() first.'
+    );
   }
   return mikroOrm;
 }

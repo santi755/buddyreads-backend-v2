@@ -1,5 +1,5 @@
 build:
-	docker compose build
+	docker compose build --no-cache
 
 up:
 	docker compose up
@@ -25,7 +25,7 @@ create-migration: build
 
 postgres-bash:
 	docker exec -it buddyreads-backend-v2-postgres-1 psql -U postgres -d buddyreads
-	
+
 #clean:
 #	docker stop $(docker ps -aq)
 #	docker rm $(docker ps -aq)

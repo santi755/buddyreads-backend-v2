@@ -1,8 +1,7 @@
 import { defineConfig } from '@mikro-orm/core';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
-import { env } from '#root/config/env.ts';
 
-const mikroOrmConfig = defineConfig({
+export default defineConfig({
   driver: PostgreSqlDriver,
   dbName: 'buddyreads',
   host: 'postgres',
@@ -15,12 +14,14 @@ const mikroOrmConfig = defineConfig({
     path: 'dist/migrations',
     pathTs: 'src/migrations',
   },
-  seeder: {
-    path: 'dist/seeders',
-    pathTs: 'src/seeders',
+  // ✅ Configurar cache para evitar problemas de permisos
+  cache: {
+    enabled: false, // Deshabilitar cache
   },
-  debug: env.NODE_ENV === 'development',
-  logger: (message) => console.log(message),
+  // ✅ O configurar cache en directorio con permisos
+  // cache: {
+  //   adapter: FileCacheAdapter,
+  //   options: { cacheDir: '/tmp/mikro-orm-cache' }
+  // },
+  debug: process.env.NODE_ENV === 'development',
 });
-
-export default mikroOrmConfig;

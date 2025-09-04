@@ -13,7 +13,18 @@ services:
     environment:
       - NODE_ENV=development
       - MONGODB_URI=mongodb://mongodb:27017/buddyreads
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=buddyreads
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
       - DATABASE_URL=postgres://postgres:password@postgres:5432/buddyreads
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CALLBACK_URL=http://localhost:8080/api/auth/google/callback
+      - JWT_SECRET=${JWT_SECRET:-your_super_secret_jwt_key_here}
+      - SESSION_SECRET=${SESSION_SECRET:-your_session_secret_here}
+      - LOG_LEVEL=info
     command: npm run dev
     depends_on:
       postgres:

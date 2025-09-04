@@ -1,22 +1,24 @@
 import { Container } from 'inversify';
 import { createMongoConnection } from '#root/src/Shared/infrastructure/persistence/mongodb/MongoClientFactory.ts';
+import { createTypeOrmConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/TypeOrmClientFactory.ts';
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { bindAuthContextContext } from '#root/src/AuthContext/infrastructure/dependency-injection/AuthContextContainer.ts';
 import { WinstonLogger } from '#root/src/Shared/infrastructure/logger/winston/WinstonLogger.ts';
-import { createPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
 
 export async function createAppContainer() {
   try {
     const container = new Container();
 
+    // MongoDB para proyecciones y vistas optimizadas
     const db = await createMongoConnection();
     container.bind(TYPES.Database).toConstantValue(db);
 
-    const logger = new WinstonLogger();
-    container.bind(TYPES.Logger).toConstantValue(logger);
+    // TypeORM como repositorio principal
+    const typeormConnection = await createTypeOrmConnection();
+    container.bind(TYPES.TypeOrmConnection).toConstantValue(typeormConnection);
 
-    const postgresConnection = createPostgresConnection();
-    container.bind(TYPES.PostgresConnection).toConstantValue(postgresConnection); 
+    const logger = new WinstonLogger();
+    container.bind(TYPES.Logger).toConstantValue(logger); 
 
     bindAuthContextContext(container);
 

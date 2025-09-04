@@ -1,36 +1,83 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-@Entity({ tableName: 'users' })
+@Entity('users')
 export class UserEntity {
-  @PrimaryKey({ type: 'uuid' })
+  @PrimaryColumn('uuid')
   id!: string;
 
-  @Property({ type: 'string', unique: true })
+  @Column({ type: 'varchar', length: 255, unique: true })
   email!: string;
 
-  @Property({ type: 'string', nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   password?: string | null;
 
-  @Property({ type: 'string', nullable: true })
+  @Column({ name: 'google_id', type: 'varchar', length: 255, nullable: true })
   googleId?: string | null;
 
-  @Property({ type: 'string', nullable: true })
+  @Column({ type: 'varchar', length: 255, nullable: true })
   name?: string | null;
 
-  @Property({ type: 'string', nullable: true })
+  @Column({ type: 'varchar', length: 500, nullable: true })
   avatar?: string | null;
 
-  @Property({ type: 'string' })
-  provider!: 'local' | 'google' | string;
+  @Column({
+    type: 'enum',
+    enum: ['local', 'google'],
+    default: 'local',
+  })
+  provider!: 'local' | 'google';
 
-  @Property({ type: 'integer', default: 1 })
+  @Column({ name: 'token_version', type: 'int', default: 1 })
   tokenVersion!: number;
 
-  @Property({ type: 'datetime' })
+  @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date;
 
-  @Property({ type: 'datetime', onUpdate: () => new Date() })
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt!: Date;
 
-  constructor() {}
+  // Factory method para crear desde dominio
+  static fromDomain(user: {
+    id: string;
+    email: string;
+    password?: string | null;
+    googleId?: string | null;
+    name?: string | null;
+    avatar?: string | null;
+    provider: 'local' | 'google';
+    tokenVersion: number;
+  }): UserEntity {
+    const entity = new UserEntity();
+    entity.id = user.id;
+    entity.email = user.email;
+    entity.password = user.password;
+    entity.googleId = user.googleId;
+    entity.name = user.name;
+    entity.avatar = user.avatar;
+    entity.provider = user.provider;
+    entity.tokenVersion = user.tokenVersion;
+    return entity;
+  }
+
+  // Método para convertir a dominio
+  toDomain() {
+    return {
+      id: this.id,
+      email: this.email,
+      password: this.password,
+      googleId: this.googleId,
+      name: this.name,
+      avatar: this.avatar,
+      provider: this.provider,
+      tokenVersion: this.tokenVersion,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    };
+  }
 }

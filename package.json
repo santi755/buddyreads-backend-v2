@@ -19,9 +19,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@mikro-orm/core": "^6.5.1",
+    "@mikro-orm/core": "^6.5.2",
     "@mikro-orm/migrations": "^6.5.2",
-    "@mikro-orm/postgresql": "^6.5.1",
+    "@mikro-orm/postgresql": "^6.5.2",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "express-session": "^1.18.2",

@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalar dependencias como root
-RUN npm install
+RUN npm ci
 
 # Copiar código fuente
 COPY . .

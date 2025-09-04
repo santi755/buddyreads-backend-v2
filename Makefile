@@ -25,10 +25,7 @@ create-migration: build
 
 postgres-bash:
 	docker exec -it buddyreads-backend-v2-postgres-1 psql -U postgres -d buddyreads
-
-prisma-generate:
-	docker exec -it buddyreads-backend-v2-app-1 npx prisma generate
-
+	
 #clean:
 #	docker stop $(docker ps -aq)
 #	docker rm $(docker ps -aq)

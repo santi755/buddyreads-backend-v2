@@ -1,3 +1,3 @@
 import { Email } from '#root/src/Shared/domain/value-object/Email';
 
-export class UserEmail extends Email {}   
+export class IdentityEmail extends Email {}

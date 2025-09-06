@@ -27,7 +27,7 @@ async function startServer() {
     dotenv.config();
 
     const app = express();
-    const port = env.PORT || 3000;
+    const port = env.PORT || 8080;
 
     // 1. Basic middleware
     app.use(express.json());

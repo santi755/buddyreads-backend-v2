@@ -13,11 +13,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf dist",
     "prebuild": "npm run clean",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio",
-    "db:drop": "drizzle-kit drop"
+    "db:generate": "drizzle-kit generate --config src/Shared/infrastructure/persistence/drizzle/drizzle.config.ts --name",
+    "db:migrate": "drizzle-kit migrate --config src/Shared/infrastructure/persistence/drizzle/drizzle.config.ts",
+    "db:push": "drizzle-kit push --config src/Shared/infrastructure/persistence/drizzle/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config src/Shared/infrastructure/persistence/drizzle/drizzle.config.ts",
+    "db:drop": "drizzle-kit drop --config src/Shared/infrastructure/persistence/drizzle/drizzle.config.ts"
   },
   "keywords": [],
   "author": "",

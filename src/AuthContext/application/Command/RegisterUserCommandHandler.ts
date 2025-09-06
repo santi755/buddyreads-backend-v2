@@ -9,7 +9,7 @@ import { UserAlreadyExistsError } from '#root/src/AuthContext/application/errors
 export class RegisterUserCommandHandler {
   constructor(
     @inject(TYPES.UserRepository)
-    private readonly userRepository: UserWriteRepository
+    private readonly userRepository: UserRepository
   ) {}
 
   async handle(command: RegisterUserCommand): Promise<void> {
@@ -20,7 +20,7 @@ export class RegisterUserCommandHandler {
       });
     }
 
-    const user = User.create(
+    const user = User.register(
       command.getUserId(),
       command.email,
       command.password

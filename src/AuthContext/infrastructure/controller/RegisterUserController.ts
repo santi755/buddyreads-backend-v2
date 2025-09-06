@@ -15,6 +15,7 @@ export class RegisterUserController {
     private readonly registerUserCommandHandler: RegisterUserCommandHandler
   ) {}
 
+  // TODO: Refactor "bodySchema" to bodyDto or bodySchema to bodySchemaDto
   @ApiEndpoint({
     bodySchema: RegisterUserSchema,
     successStatus: 201,

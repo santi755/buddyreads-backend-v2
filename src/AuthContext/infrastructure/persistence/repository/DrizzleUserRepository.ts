@@ -2,7 +2,7 @@ import { injectable } from 'inversify';
 import { eq } from 'drizzle-orm';
 import { User as DomainUser } from '#root/src/AuthContext/domain/user/User.ts';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
-import { users } from '../schema/UserSchema.ts';
+import { users } from '#root/src/AuthContext/infrastructure/persistence/schema/User.schema.ts';
 import { getPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
 import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository.ts';
 

@@ -1,33 +1,36 @@
-import { MikroORM } from '@mikro-orm/core';
-import mikroOrmConfig from '#root/src/mikro-orm.config.ts';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
+import { env } from "#root/config/env.ts";
 
-let mikroOrm: MikroORM | null = null;
+let drizzleClient: ReturnType<typeof drizzle> | null = null;
+let pool: Pool | null = null;
 
-export async function createPostgresConnection(): Promise<MikroORM> {
-  if (!mikroOrm) {
-    mikroOrm = await MikroORM.init(mikroOrmConfig);
+export function createPostgresConnection() {
+  if (!pool) {
+    pool = new Pool({
+      connectionString: env.DATABASE_URL,
+      ssl: false,
+    });
   }
 
-  return mikroOrm;
+  if (!drizzleClient) {
+    drizzleClient = drizzle(pool);
+  }
+
+  return drizzleClient;
 }
 
-export function getPostgresConnection(): MikroORM {
-  if (!mikroOrm) {
-    throw new Error(
-      'PostgreSQL connection not initialized. Call createPostgresConnection() first.'
-    );
+export function getPostgresConnection() {
+  if (!drizzleClient) {
+    throw new Error('PostgreSQL connection not initialized. Call createPostgresConnection() first.');
   }
-  return mikroOrm;
+  return drizzleClient;
 }
 
 export async function closePostgresConnection(): Promise<void> {
-  if (mikroOrm) {
-    await mikroOrm.close();
-    mikroOrm = null;
+  if (pool) {
+    await pool.end();
+    pool = null;
+    drizzleClient = null;
   }
-}
-
-export async function runMigrations(): Promise<void> {
-  const orm = await createPostgresConnection();
-  await orm.getMigrator().up();
 }

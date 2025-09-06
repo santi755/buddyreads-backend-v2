@@ -1,27 +1,17 @@
 import { injectable } from 'inversify';
 import { eq } from 'drizzle-orm';
 import { User as DomainUser } from '#root/src/AuthContext/domain/user/User.ts';
-import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 import { users } from '#root/src/AuthContext/infrastructure/persistence/schema/User.schema.ts';
 import { getPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
 import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository.ts';
+import { UserTransformer } from '#root/src/AuthContext/infrastructure/persistence/transformer/UserTransformer.ts';
 
 @injectable()
 export class DrizzleUserRepository implements UserRepository {
   private db = getPostgresConnection();
 
   async save(user: DomainUser): Promise<void> {
-    await this.db.insert(users).values({
-      id: user.id.value,
-      email: user.email,
-      password: user.password,
-      googleId: user.googleId,
-      name: user.name,
-      avatar: user.avatar,
-      provider: user.provider,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
-    });
+    await this.db.insert(users).values(UserTransformer.toPersistence(user));
   }
 
   async findByEmail(email: string): Promise<DomainUser | null> {
@@ -37,18 +27,7 @@ export class DrizzleUserRepository implements UserRepository {
 
     const user = result[0];
 
-    // TODO: Fix this ñapa de undefined
-    return DomainUser.create(
-      UserId.fromString(user?.id ?? ''),
-      user?.email ?? '',
-      user?.password ?? null,
-      user?.googleId ?? null,
-      user?.name ?? null,
-      user?.avatar ?? null,
-      user?.provider ?? '',
-      user?.createdAt ?? new Date(),
-      user?.updatedAt ?? new Date()
-    );
+    return UserTransformer.toDomain(user);
   }
 
   async findByGoogleId(googleId: string): Promise<DomainUser | null> {
@@ -64,17 +43,6 @@ export class DrizzleUserRepository implements UserRepository {
 
     const user = result[0];
 
-    // TODO: Fix this ñapa de undefined
-    return DomainUser.create(
-      UserId.fromString(user?.id ?? ''),
-      user?.email ?? '',
-      user?.password ?? null,
-      user?.googleId ?? null,
-      user?.name ?? null,
-      user?.avatar ?? null,
-      user?.provider ?? '',
-      user?.createdAt ?? new Date(),
-      user?.updatedAt ?? new Date()
-    );
+    return UserTransformer.toDomain(user);
   }
 }

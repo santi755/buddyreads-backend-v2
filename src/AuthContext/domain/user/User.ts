@@ -1,4 +1,5 @@
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
+import { UserDatetime } from '#root/src/AuthContext/domain/user/UserDatetime.ts';
 
 export const USER_PROVIDER = {
   LOCAL: 'local',
@@ -13,8 +14,8 @@ export class User {
   public readonly name: string | null;
   public readonly avatar: string | null;
   public readonly provider: string;
-  public readonly createdAt: Date;
-  public readonly updatedAt: Date;
+  public readonly createdAt: UserDatetime;
+  public readonly updatedAt: UserDatetime;
 
   constructor(
     id: UserId,
@@ -24,8 +25,8 @@ export class User {
     name: string | null,
     avatar: string | null,
     provider: string,
-    createdAt: Date,
-    updatedAt: Date
+    createdAt: UserDatetime,
+    updatedAt: UserDatetime
   ) {
     this.id = id;
     this.email = email;
@@ -45,13 +46,15 @@ export class User {
     googleId: string | null,
     name: string | null,
     avatar: string | null,
-    provider: string,
-    createdAt: Date,
-    updatedAt: Date): User {
+    provider: string,): User {
+    const createdAt = UserDatetime.now();
+    const updatedAt = UserDatetime.now();
     return new User(id, email, password, googleId, name, avatar, provider, createdAt, updatedAt);
   }
 
   static register(id: UserId, email: string, password: string): User {
+    const createdAt = UserDatetime.now();
+    const updatedAt = UserDatetime.now();
     return new User(
       id,
       email,
@@ -60,8 +63,8 @@ export class User {
       null,
       null,
       USER_PROVIDER.LOCAL,
-      new Date(),
-      new Date()
+      createdAt,
+      updatedAt
     );
   }
 
@@ -72,6 +75,8 @@ export class User {
     name: string,
     avatar: string
   ): User {
+    const createdAt = UserDatetime.now();
+    const updatedAt = UserDatetime.now();
     return new User(
       id,
       email,
@@ -80,8 +85,8 @@ export class User {
       name,
       avatar,
       USER_PROVIDER.GOOGLE,
-      new Date(),
-      new Date()
+      createdAt,
+      updatedAt
     );
   }
 }

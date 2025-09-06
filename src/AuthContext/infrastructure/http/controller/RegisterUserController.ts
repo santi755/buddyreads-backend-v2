@@ -4,7 +4,7 @@ import { ApiEndpoint } from '#root/src/Shared/infrastructure/http/decorators/Api
 import {
   RegisterUserSchema,
   type RegisterUserDTO,
-} from '#root/src/AuthContext/infrastructure/controller/RegisterUserDto.ts';
+} from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserDto.ts';
 import { RegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/RegisterUserCommandHandler.ts';
 import { RegisterUserCommand } from '#root/src/AuthContext/application/Command/RegisterUserCommand.ts';
 

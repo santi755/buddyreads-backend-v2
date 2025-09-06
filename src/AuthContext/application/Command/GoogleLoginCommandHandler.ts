@@ -15,8 +15,8 @@ export class GoogleLoginCommandHandler {
   async handle(command: GoogleLoginCommand): Promise<User> {
     let user = await this.userRepository.findByGoogleId(command.googleId);
 
-    console.log('--- Antes de petar');
-    throw new Error('test');
+    console.log('--- GoogleLogin: ', user);
+    return user;
 
     if (user) {
       return user;

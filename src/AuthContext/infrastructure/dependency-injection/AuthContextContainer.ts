@@ -3,9 +3,9 @@ import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository
 import { MongoUserRepository } from '#root/src/AuthContext/infrastructure/Repository/MongoUserRepository.ts';
 import { DrizzleUserRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/DrizzleUserRepository.ts';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
-import { RegisterUserController } from '#root/src/AuthContext/infrastructure/controller/RegisterUserController';
+import { RegisterUserController } from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserController.ts';
 import { RegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/RegisterUserCommandHandler.ts';
-import { GoogleAuthController } from '#root/src/AuthContext/infrastructure/controller/GoogleAuthController.ts';
+import { GoogleAuthController } from '#root/src/AuthContext/infrastructure/http/controller/GoogleAuthController.ts';
 import { GoogleLoginCommandHandler } from '#root/src/AuthContext/application/Command/GoogleLoginCommandHandler.ts';
 import { JwtService } from '#root/src/AuthContext/infrastructure/services/JwtService.ts';
 

@@ -1,5 +1,6 @@
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 import { UserDatetime } from '#root/src/AuthContext/domain/user/UserDatetime.ts';
+import { UserEmail } from '#root/src/AuthContext/domain/user/UserEmail.ts';
 
 export const USER_PROVIDER = {
   LOCAL: 'local',
@@ -8,7 +9,7 @@ export const USER_PROVIDER = {
 
 export class User {
   public readonly id: UserId;
-  public readonly email: string;
+  public readonly email: UserEmail;
   public readonly password: string | null;
   public readonly googleId: string | null;
   public readonly name: string | null;
@@ -19,7 +20,7 @@ export class User {
 
   constructor(
     id: UserId,
-    email: string,
+    email: UserEmail,
     password: string | null,
     googleId: string | null,
     name: string | null,
@@ -41,7 +42,7 @@ export class User {
 
   static create(    
     id: UserId,
-    email: string,
+    email: UserEmail,
     password: string | null,
     googleId: string | null,
     name: string | null,
@@ -52,7 +53,7 @@ export class User {
     return new User(id, email, password, googleId, name, avatar, provider, createdAt, updatedAt);
   }
 
-  static register(id: UserId, email: string, password: string): User {
+  static register(id: UserId, email: UserEmail, password: string): User {
     const createdAt = UserDatetime.now();
     const updatedAt = UserDatetime.now();
     return new User(
@@ -70,7 +71,7 @@ export class User {
 
   static createFromGoogle(
     id: UserId,
-    email: string,
+    email: UserEmail,
     googleId: string,
     name: string,
     avatar: string

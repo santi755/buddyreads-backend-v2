@@ -1,4 +1,5 @@
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
+import { UserEmail } from '#root/src/AuthContext/domain/user/UserEmail.ts';
 
 export class RegisterUserCommand {
   constructor(
@@ -17,5 +18,9 @@ export class RegisterUserCommand {
 
   getUserId(): UserId {
     return UserId.fromString(this.id);
+  }
+
+  getUserEmail(): UserEmail {
+    return UserEmail.generate(this.email);
   }
 }

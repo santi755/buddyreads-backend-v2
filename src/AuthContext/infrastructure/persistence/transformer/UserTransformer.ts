@@ -1,11 +1,12 @@
 import { User } from "#root/src/AuthContext/domain/user/User";
 import { UserId } from "#root/src/AuthContext/domain/user/UserId";
+import { UserEmail } from "#root/src/AuthContext/domain/user/UserEmail";
 
 export class UserTransformer {
   static toDomain(user: any): User {
     return User.create(
       UserId.fromString(user.id),
-      user.email,
+      UserEmail.generate(user.email),
       user.password,
       user.googleId,
       user.name,
@@ -17,7 +18,7 @@ export class UserTransformer {
   static toPersistence(user: User): any {
     return {
       id: user.id.value,
-      email: user.email,
+      email: user.email.value,
       password: user.password,
       googleId: user.googleId,
       name: user.name,

@@ -22,7 +22,7 @@ export class RegisterUserCommandHandler {
 
     const user = User.register(
       command.getUserId(),
-      command.email,
+      command.getUserEmail(),
       command.password
     );
     await this.userRepository.save(user);

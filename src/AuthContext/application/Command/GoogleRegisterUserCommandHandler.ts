@@ -57,7 +57,7 @@ export class GoogleRegisterUserCommandHandler {
 
   private async updateLastUsedAt(identity: Identity): Promise<void> {
     identity = identity.updateLastUsed();
-    await this.identityRepository.save(identity);
+    await this.identityRepository.update(identity);
   }
 
   private async getOrCreateUser(command: GoogleRegisterUserCommand): Promise<User> {

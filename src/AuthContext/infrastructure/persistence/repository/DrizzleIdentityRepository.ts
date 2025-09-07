@@ -15,6 +15,10 @@ export class DrizzleIdentityRepository implements IdentityRepository {
     await this.db.insert(identities).values(IdentityTransformer.toPersistence(identity));
   }
 
+  async update(identity: Identity): Promise<void> {
+    await this.db.update(identities).set(IdentityTransformer.toPersistence(identity)).where(eq(identities.id, identity.id.value));
+  }
+
   async findByEmail(email: string): Promise<Identity | null> {
     const result = await this.db
       .select()

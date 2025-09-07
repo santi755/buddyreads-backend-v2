@@ -5,14 +5,14 @@ import {
   RegisterUserSchema,
   type RegisterUserDTO,
 } from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserDto.ts';
-import { RegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/RegisterUserCommandHandler.ts';
-import { RegisterUserCommand } from '#root/src/AuthContext/application/Command/RegisterUserCommand.ts';
+import { LocalRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/LocalRegisterUserCommandHandler';
+import { LocalRegisterUserCommand } from '#root/src/AuthContext/application/Command/LocalRegisterUserCommand';
 
 @injectable()
 export class RegisterUserController {
   constructor(
-    @inject(TYPES.RegisterUserCommandHandler)
-    private readonly registerUserCommandHandler: RegisterUserCommandHandler
+    @inject(TYPES.LocalRegisterUserCommandHandler)
+    private readonly registerUserCommandHandler: LocalRegisterUserCommandHandler
   ) {}
 
   // TODO: Refactor "bodySchema" to bodyDto or bodySchema to bodySchemaDto
@@ -23,12 +23,12 @@ export class RegisterUserController {
   async execute(
     body: RegisterUserDTO
   ): Promise<{ success: boolean; message: string }> {
-    const command = RegisterUserCommand.create(
+    const command = LocalRegisterUserCommand.create(
       body.id,
       body.email,
       body.password
     );
-    
+
     await this.registerUserCommandHandler.handle(command);
 
     return {

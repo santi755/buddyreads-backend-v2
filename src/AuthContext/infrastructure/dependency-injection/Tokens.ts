@@ -3,7 +3,7 @@ export const TYPES = {
   IdentityRepository: Symbol.for('IdentityRepository'),
   RefreshTokenRepository: Symbol.for('RefreshTokenRepository'),
   RegisterUserController: Symbol.for('RegisterUserController'),
-  RegisterUserCommandHandler: Symbol.for('RegisterUserCommandHandler'),
+  LocalRegisterUserCommandHandler: Symbol.for('LocalRegisterUserCommandHandler'),
   GoogleAuthController: Symbol.for('GoogleAuthController'),
   GoogleLoginCommandHandler: Symbol.for('GoogleLoginCommandHandler'),
   JwtService: Symbol.for('JwtService'),

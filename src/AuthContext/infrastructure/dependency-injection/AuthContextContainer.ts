@@ -4,7 +4,7 @@ import { MongoUserRepository } from '#root/src/AuthContext/infrastructure/Reposi
 import { DrizzleUserRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/DrizzleUserRepository.ts';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
 import { RegisterUserController } from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserController.ts';
-import { RegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/RegisterUserCommandHandler.ts';
+import { LocalRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/LocalRegisterUserCommandHandler.ts';
 import { GoogleAuthController } from '#root/src/AuthContext/infrastructure/http/controller/GoogleAuthController.ts';
 import { GoogleLoginCommandHandler } from '#root/src/AuthContext/application/Command/GoogleLoginCommandHandler.ts';
 import { JwtService } from '#root/src/AuthContext/infrastructure/services/JwtService.ts';
@@ -23,8 +23,8 @@ export function bindAuthContextContext(container: Container) {
   container.bind<IdentityRepository>(TYPES.IdentityRepository).to(DrizzleIdentityRepository);
   container.bind<RefreshTokenRepository>(TYPES.RefreshTokenRepository).to(DrizzleRefreshTokenRepository);
   container
-    .bind<RegisterUserCommandHandler>(TYPES.RegisterUserCommandHandler)
-    .to(RegisterUserCommandHandler);
+    .bind<LocalRegisterUserCommandHandler>(TYPES.LocalRegisterUserCommandHandler)
+    .to(LocalRegisterUserCommandHandler);
   container
     .bind<GoogleLoginCommandHandler>(TYPES.GoogleLoginCommandHandler)
     .to(GoogleLoginCommandHandler);

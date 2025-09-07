@@ -1,7 +1,7 @@
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 import { UserEmail } from '#root/src/AuthContext/domain/user/UserEmail.ts';
 
-export class RegisterUserCommand {
+export class LocalRegisterUserCommand {
   constructor(
     public readonly id: string,
     public readonly email: string,
@@ -12,8 +12,8 @@ export class RegisterUserCommand {
     id: string,
     email: string,
     password: string
-  ): RegisterUserCommand {
-    return new RegisterUserCommand(id, email, password);
+  ): LocalRegisterUserCommand {
+    return new LocalRegisterUserCommand(id, email, password);
   }
 
   getUserId(): UserId {

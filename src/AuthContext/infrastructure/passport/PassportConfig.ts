@@ -3,8 +3,8 @@ import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { env } from '#root/config/env.ts';
 import type { Container } from 'inversify';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
-import { GoogleLoginCommandHandler } from '#root/src/AuthContext/application/Command/GoogleLoginCommandHandler.ts';
-import { GoogleLoginCommand } from '#root/src/AuthContext/application/Command/GoogleLoginCommand.ts';
+import { GoogleRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/GoogleRegisterUserCommandHandler.ts';
+import { GoogleRegisterUserCommand } from '#root/src/AuthContext/application/Command/GoogleRegisterUserCommand.ts';
 
 export function configureGoogleStrategy(container: Container) {
   passport.use(
@@ -17,11 +17,11 @@ export function configureGoogleStrategy(container: Container) {
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
-          const commandHandler = container.get<GoogleLoginCommandHandler>(
-            TYPES.GoogleLoginCommandHandler
+          const commandHandler = container.get<GoogleRegisterUserCommandHandler>(
+            TYPES.GoogleRegisterUserCommandHandler
           );
 
-          const command = new GoogleLoginCommand(
+          const command = new GoogleRegisterUserCommand(
             profile.id,
             profile.emails![0].value,
             profile.displayName,

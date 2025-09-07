@@ -11,12 +11,14 @@ export class GoogleAuthController {
     private readonly jwtService: JwtService
   ) {}
 
-  async login(req: Request, res: Response) {
+  // This register is used to register the user in the database
+  async register(req: Request, res: Response) {
     passport.authenticate('google', {
       scope: ['profile', 'email'],
     })(req, res);
   }
 
+  // This callback is used to login the user after the Google authentication
   async callback(req: Request, res: Response) {
     passport.authenticate(
       'google',

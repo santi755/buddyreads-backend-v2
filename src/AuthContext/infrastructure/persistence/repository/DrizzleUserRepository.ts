@@ -14,6 +14,22 @@ export class DrizzleUserRepository implements UserRepository {
     await this.db.insert(users).values(UserTransformer.toPersistence(user));
   }
 
+  async findById(id: string): Promise<DomainUser | null> {
+    const result = await this.db
+      .select()
+      .from(users)
+      .where(eq(users.id, id))
+      .limit(1);
+
+    if (result.length === 0) {
+      return null;
+    }
+
+    const user = result[0];
+
+    return UserTransformer.toDomain(user);
+  }
+
   async findByEmail(email: string): Promise<DomainUser | null> {
     const result = await this.db
       .select()

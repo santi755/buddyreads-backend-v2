@@ -6,7 +6,7 @@ import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection
 import { RegisterUserController } from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserController.ts';
 import { LocalRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/LocalRegisterUserCommandHandler.ts';
 import { GoogleAuthController } from '#root/src/AuthContext/infrastructure/http/controller/GoogleAuthController.ts';
-import { GoogleLoginCommandHandler } from '#root/src/AuthContext/application/Command/GoogleLoginCommandHandler.ts';
+import { GoogleRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/GoogleRegisterUserCommandHandler.ts';
 import { JwtService } from '#root/src/AuthContext/infrastructure/services/JwtService.ts';
 import { IdentityRepository } from '../../domain/identity/IdentityRepository.ts';
 import { RefreshTokenRepository } from '../../domain/refreshToken/RefreshTokenRepository.ts';
@@ -26,8 +26,8 @@ export function bindAuthContextContext(container: Container) {
     .bind<LocalRegisterUserCommandHandler>(TYPES.LocalRegisterUserCommandHandler)
     .to(LocalRegisterUserCommandHandler);
   container
-    .bind<GoogleLoginCommandHandler>(TYPES.GoogleLoginCommandHandler)
-    .to(GoogleLoginCommandHandler);
+    .bind<GoogleRegisterUserCommandHandler>(TYPES.GoogleRegisterUserCommandHandler)
+    .to(GoogleRegisterUserCommandHandler);
   container
     .bind<GoogleAuthController>(TYPES.GoogleAuthController)
     .to(GoogleAuthController);

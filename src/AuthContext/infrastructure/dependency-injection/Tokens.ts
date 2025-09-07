@@ -5,6 +5,6 @@ export const TYPES = {
   RegisterUserController: Symbol.for('RegisterUserController'),
   LocalRegisterUserCommandHandler: Symbol.for('LocalRegisterUserCommandHandler'),
   GoogleAuthController: Symbol.for('GoogleAuthController'),
-  GoogleLoginCommandHandler: Symbol.for('GoogleLoginCommandHandler'),
+  GoogleRegisterUserCommandHandler: Symbol.for('GoogleRegisterUserCommandHandler'),
   JwtService: Symbol.for('JwtService'),
 };

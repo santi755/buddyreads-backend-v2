@@ -1,10 +1,11 @@
 import { injectable } from 'inversify';
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { getPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
 import { IdentityRepository } from '#root/src/AuthContext/domain/identity/IdentityRepository';
 import { IdentityTransformer } from '../transformer/IdentityTransformer';
 import { identities } from '../schema/Identity.schema';
 import { Identity } from '#root/src/AuthContext/domain/identity/Identity';
+import { IdentityProvider } from '#root/src/AuthContext/domain/identity/IdentityProvider';
 
 @injectable()
 export class DrizzleIdentityRepository implements IdentityRepository {
@@ -31,10 +32,16 @@ export class DrizzleIdentityRepository implements IdentityRepository {
   }
 
   async findByGoogleId(googleId: string): Promise<Identity | null> {
+    const provider = IdentityProvider.fromProvider('google');
     const result = await this.db
       .select()
       .from(identities)
-      .where(eq(identities.providerId, googleId))
+      .where(
+        and(
+          eq(identities.providerId, googleId),
+          eq(identities.provider, provider.value)
+        )
+      )
       .limit(1);
 
     if (result.length === 0) {

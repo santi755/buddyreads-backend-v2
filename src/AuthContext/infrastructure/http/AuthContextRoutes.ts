@@ -22,7 +22,7 @@ export const authRoutes: RouteDefinition[] = [
     method: 'get',
     path: '/google',
     controller: TYPES.GoogleAuthController,
-    action: 'login',
+    action: 'register',
   },
   {
     method: 'get',

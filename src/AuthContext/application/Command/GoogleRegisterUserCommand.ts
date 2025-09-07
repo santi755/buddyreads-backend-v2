@@ -1,4 +1,4 @@
-export class GoogleLoginCommand {
+export class GoogleRegisterUserCommand {
   constructor(
     public readonly googleId: string,
     public readonly email: string,

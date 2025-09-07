@@ -23,19 +23,23 @@ export class User {
     avatar: string | null,
     primaryEmail: UserEmail,
     identities: Identity[],
+    isActive: boolean,
+    isEmailVerified: boolean,
+    lastLoginAt: UserDatetime | null,
+    createdAt: UserDatetime,
+    updatedAt: UserDatetime,
   ): User {
-    const now = UserDatetime.now();
     return new User(
       id, 
       name, 
       avatar, 
       primaryEmail, 
       identities, 
-      true, // isActive
-      false, // isEmailVerified
-      null, // lastLoginAt
-      now, // createdAt
-      now  // updatedAt
+      isActive,
+      isEmailVerified,
+      lastLoginAt,
+      createdAt,
+      updatedAt
     );
   }
 

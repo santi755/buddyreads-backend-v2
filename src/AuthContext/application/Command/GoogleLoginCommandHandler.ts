@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
 import { GoogleLoginCommand } from '#root/src/AuthContext/application/Command/GoogleLoginCommand.ts';
-import { UserRepository } from '#root/src/AuthContext/domain/UserRepository.ts';
+import { UserRepository } from '#root/src/AuthContext/domain/user/UserRepository.ts';
 import { User } from '#root/src/AuthContext/domain/user/User';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 

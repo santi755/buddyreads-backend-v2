@@ -1,6 +1,6 @@
-import { RefreshToken } from '#root/src/AuthContext/domain/user/RefreshToken.ts';
-import { RefreshTokenId } from '#root/src/AuthContext/domain/user/RefreshTokenId.ts';
-import { RefreshTokenDatetime } from '#root/src/AuthContext/domain/user/RefreshTokenDatetime.ts';
+import { RefreshToken } from '#root/src/AuthContext/domain/refreshToken/RefreshToken';
+import { RefreshTokenId } from '#root/src/AuthContext/domain/refreshToken/RefreshTokenId';
+import { RefreshTokenDatetime } from '#root/src/AuthContext/domain/refreshToken/RefreshTokenDatetime';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
 
 export class RefreshTokenTransformer {

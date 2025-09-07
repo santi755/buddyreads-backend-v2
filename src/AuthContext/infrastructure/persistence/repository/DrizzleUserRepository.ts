@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import { User as DomainUser } from '#root/src/AuthContext/domain/user/User.ts';
 import { users } from '#root/src/AuthContext/infrastructure/persistence/schema/User.schema.ts';
 import { getPostgresConnection } from '#root/src/Shared/infrastructure/persistence/postgresdb/PostgresClientFactory.ts';
-import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository.ts';
+import type { UserRepository } from '#root/src/AuthContext/domain/user/UserRepository.ts';
 import { UserTransformer } from '#root/src/AuthContext/infrastructure/persistence/transformer/UserTransformer.ts';
 
 @injectable()
@@ -18,7 +18,7 @@ export class DrizzleUserRepository implements UserRepository {
     const result = await this.db
       .select()
       .from(users)
-      .where(eq(users.email, email))
+      .where(eq(users.primaryEmail, email))
       .limit(1);
 
     if (result.length === 0) {
@@ -34,7 +34,7 @@ export class DrizzleUserRepository implements UserRepository {
     const result = await this.db
       .select()
       .from(users)
-      .where(eq(users.googleId, googleId))
+      .where(eq(users.primaryEmail, googleId))
       .limit(1);
 
     if (result.length === 0) {

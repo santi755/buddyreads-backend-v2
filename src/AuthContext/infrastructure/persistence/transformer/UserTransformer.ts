@@ -1,7 +1,7 @@
 import { User } from "#root/src/AuthContext/domain/user/User.ts";
 import { UserId } from "#root/src/AuthContext/domain/user/UserId.ts";
 import { UserEmail } from "#root/src/AuthContext/domain/user/UserEmail.ts";
-import { Identity } from "#root/src/AuthContext/domain/user/Identity";
+import { Identity } from "#root/src/AuthContext/domain/identity/Identity";
 import { UserDatetime } from "#root/src/AuthContext/domain/user/UserDatetime";
 
 

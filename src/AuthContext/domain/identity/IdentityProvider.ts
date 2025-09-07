@@ -13,6 +13,10 @@ const ID_PROVIDERS = {
     static fromProvider(value: string): IdentityProvider {
       return new IdentityProvider(value);
     }
+
+    static createLocal(): IdentityProvider {
+      return new IdentityProvider(ID_PROVIDERS.LOCAL);
+    }
   
     private isValid(value: string): boolean {
       return Object.values(ID_PROVIDERS).includes(value);

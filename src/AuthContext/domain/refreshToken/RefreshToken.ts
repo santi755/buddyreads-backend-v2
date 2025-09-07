@@ -1,6 +1,6 @@
 import { RefreshTokenId } from './RefreshTokenId';
 import { RefreshTokenDatetime } from './RefreshTokenDatetime';
-import { UserId } from './UserId';
+import { UserId } from '../user/UserId';
 
 export class RefreshToken {
   constructor(

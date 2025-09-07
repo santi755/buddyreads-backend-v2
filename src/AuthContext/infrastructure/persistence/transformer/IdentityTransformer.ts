@@ -1,9 +1,9 @@
-import { Identity } from '#root/src/AuthContext/domain/user/Identity.ts';
-import { IdentityId } from '#root/src/AuthContext/domain/user/IdentityId.ts';
-import { IdentityEmail } from '#root/src/AuthContext/domain/user/IdentityEmail.ts';
-import { IdentityProvider } from '#root/src/AuthContext/domain/user/IdentityProvider.ts';
+import { Identity } from '#root/src/AuthContext/domain/identity/Identity';
+import { IdentityId } from '#root/src/AuthContext/domain/identity/IdentityId';
+import { IdentityEmail } from '#root/src/AuthContext/domain/identity/IdentityEmail';
+import { IdentityProvider } from '#root/src/AuthContext/domain/identity/IdentityProvider';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
-import { IdentityDatetime } from '#root/src/AuthContext/domain/user/IdentityDatetime.ts';
+import { IdentityDatetime } from '#root/src/AuthContext/domain/identity/IdentityDatetime';
 
 export class IdentityTransformer {
   static toDomain(identity: any): Identity {

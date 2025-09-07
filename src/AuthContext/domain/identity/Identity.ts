@@ -1,8 +1,8 @@
-import { IdentityId } from '#root/src/AuthContext/domain/user/IdentityId.ts';
+import { IdentityId } from '#root/src/AuthContext/domain/identity/IdentityId';
 import { IdentityDatetime } from './IdentityDatetime';
 import { IdentityEmail } from './IdentityEmail';
 import { IdentityProvider } from './IdentityProvider';
-import { UserId } from './UserId';
+import { UserId } from '../user/UserId';
 
 export class Identity {
   constructor(
@@ -46,10 +46,10 @@ export class Identity {
     id: IdentityId, 
     userId: UserId, 
     email: IdentityEmail, 
-    provider: IdentityProvider, 
     password: string
   ): Identity {
     const now = IdentityDatetime.now();
+    const provider = IdentityProvider.createLocal();
     return new Identity(
       id, 
       userId, 

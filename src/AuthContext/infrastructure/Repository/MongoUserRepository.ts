@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import { Db, Collection } from 'mongodb';
-import type { UserRepository } from '#root/src/AuthContext/domain/UserRepository.ts';
+import type { UserRepository } from '#root/src/AuthContext/domain/user/UserRepository.ts';
 import { User } from '#root/src/AuthContext/domain/user/User';
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';

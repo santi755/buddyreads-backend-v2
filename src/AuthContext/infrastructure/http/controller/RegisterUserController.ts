@@ -23,12 +23,12 @@ export class RegisterUserController {
   async execute(
     body: RegisterUserDTO
   ): Promise<{ success: boolean; message: string }> {
-    console.log('--- Antes de petar 1');
     const command = RegisterUserCommand.create(
       body.id,
       body.email,
       body.password
     );
+    
     await this.registerUserCommandHandler.handle(command);
 
     return {

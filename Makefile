@@ -32,6 +32,7 @@ ifndef NAME
 	$(error NAME is required. Use: make db-generate-name NAME="your_migration_name")
 endif
 	
+# make db-generate NAME=your_migration_name
 db-generate: check-name
 	docker compose run --rm app npm run db:generate ${NAME}
 
@@ -46,6 +47,13 @@ db-studio:
 
 db-drop:
 	docker compose run --rm app npm run db:drop
+
+db-reset:
+	docker compose exec postgres psql -U postgres -d buddyreads -c "DROP SCHEMA IF EXISTS public CASCADE;"
+	docker compose exec postgres psql -U postgres -d buddyreads -c "CREATE SCHEMA public;"
+	docker compose exec postgres psql -U postgres -d buddyreads -c "DROP SCHEMA IF EXISTS drizzle CASCADE;"
+	docker compose exec postgres psql -U postgres -d buddyreads -c "CREATE SCHEMA drizzle;"
+	docker compose run --rm app npm run db:migrate
 
 #clean:
 #	docker stop $(docker ps -aq)

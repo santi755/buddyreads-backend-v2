@@ -10,30 +10,122 @@ export class Identity {
     public readonly userId: UserId,
     public readonly email: IdentityEmail,
     public readonly provider: IdentityProvider,
-    public readonly providerId: string,
+    public readonly providerId: string | null,
     public readonly password: string | null,
+    public readonly isVerified: boolean,
+    public readonly isPrimary: boolean,
+    public readonly lastUsedAt: IdentityDatetime | null,
     public readonly createdAt: IdentityDatetime,
     public readonly updatedAt: IdentityDatetime
-  ) {
-    this.id = id;
-    this.userId = userId;
-    this.email = email;
-    this.provider = provider;
-    this.providerId = providerId;
-    this.password = password;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+  ) {}
+
+  static createFromGoogle(
+    id: IdentityId, 
+    userId: UserId, 
+    email: IdentityEmail, 
+    provider: IdentityProvider, 
+    providerId: string
+  ): Identity {
+    const now = IdentityDatetime.now();
+    return new Identity(
+      id, 
+      userId, 
+      email, 
+      provider, 
+      providerId, 
+      null, 
+      true, 
+      false,  
+      null,  
+      now, 
+      now
+    );
   }
 
-  static createFromGoogle(id: IdentityId, userId: UserId, email: IdentityEmail, provider: IdentityProvider, providerId: string): Identity {
-    const createdAt = IdentityDatetime.now();
-    const updatedAt = IdentityDatetime.now();
-    return new Identity(id, userId, email, provider, providerId, null, createdAt, updatedAt);
+  static createFromLocal(
+    id: IdentityId, 
+    userId: UserId, 
+    email: IdentityEmail, 
+    provider: IdentityProvider, 
+    password: string
+  ): Identity {
+    const now = IdentityDatetime.now();
+    return new Identity(
+      id, 
+      userId, 
+      email, 
+      provider, 
+      null,  
+      password, 
+      false,  
+      false,  
+      null,  
+      now, 
+      now
+    );
   }
 
-  static createFromLocal(id: IdentityId, userId: UserId, email: IdentityEmail, provider: IdentityProvider, providerId: string, password: string): Identity {
-    const createdAt = IdentityDatetime.now();
-    const updatedAt = IdentityDatetime.now();
-    return new Identity(id, userId, email, provider, providerId, password, createdAt, updatedAt);
+  verify(): Identity {
+    return new Identity(
+      this.id,
+      this.userId,
+      this.email,
+      this.provider,
+      this.providerId,
+      this.password,
+      true, 
+      this.isPrimary,
+      this.lastUsedAt,
+      this.createdAt,
+      IdentityDatetime.now()  
+    );
+  }
+
+  setAsPrimary(): Identity {
+    return new Identity(
+      this.id,
+      this.userId,
+      this.email,
+      this.provider,
+      this.providerId,
+      this.password,
+      this.isVerified,
+      true,  
+      this.lastUsedAt,
+      this.createdAt,
+      IdentityDatetime.now()
+    );
+  }
+
+  updateLastUsed(): Identity {
+    return new Identity(
+      this.id,
+      this.userId,
+      this.email,
+      this.provider,
+      this.providerId,
+      this.password,
+      this.isVerified,
+      this.isPrimary,
+      IdentityDatetime.now(), 
+      this.createdAt,
+      IdentityDatetime.now() 
+    );
+  }
+
+  updatePassword(newPassword: string): Identity {
+    return new Identity(
+      this.id,
+      this.userId,
+      this.email,
+      this.provider,
+      this.providerId,
+      newPassword,
+      this.isVerified,
+      this.isPrimary,
+      this.lastUsedAt,
+      this.createdAt,
+      IdentityDatetime.now()
+    );
   }
 }

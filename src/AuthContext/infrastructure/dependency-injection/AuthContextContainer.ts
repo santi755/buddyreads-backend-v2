@@ -12,6 +12,8 @@ import { IdentityRepository } from '../../domain/identity/IdentityRepository.ts'
 import { RefreshTokenRepository } from '../../domain/refreshToken/RefreshTokenRepository.ts';
 import { DrizzleIdentityRepository } from '../../infrastructure/persistence/repository/DrizzleIdentityRepository.ts';
 import { DrizzleRefreshTokenRepository } from '../../infrastructure/persistence/repository/DrizzleRefreshTokenRepository.ts';
+import { PasswordHasher } from '../../domain/services/PasswordHasher.ts';
+import { Argon2PasswordHasher } from '../../infrastructure/services/Argon2PasswordHasher.ts';
 
 export function bindAuthContextContext(container: Container) {
   container
@@ -32,4 +34,5 @@ export function bindAuthContextContext(container: Container) {
     .bind<GoogleAuthController>(TYPES.GoogleAuthController)
     .to(GoogleAuthController);
   container.bind<JwtService>(TYPES.JwtService).to(JwtService);
+  container.bind<PasswordHasher>(TYPES.PasswordHasher).to(Argon2PasswordHasher);
 }

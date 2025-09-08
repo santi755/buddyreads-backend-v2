@@ -4,12 +4,13 @@ import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection
 import { LocalRegisterUserCommand } from '#root/src/AuthContext/application/Command/LocalRegisterUserCommand.ts';
 import { User } from '#root/src/AuthContext/domain/user/User';
 import { UserAlreadyExistsError } from '#root/src/AuthContext/application/errors/UserAlreadyExistsError.ts';
-import { IdentityRepository } from '../../domain/identity/IdentityRepository.ts';
-import { IdentityAlreadyExistsError } from '../errors/IdentityAlreadyExistsError.ts';
-import { Identity } from '../../domain/identity/Identity.ts';
-import { IdentityId } from '../../domain/identity/IdentityId.ts';
-import { UserId } from '../../domain/user/UserId.ts';
-import { UserDatetime } from '../../domain/user/UserDatetime.ts';
+import { IdentityRepository } from '#root/src/AuthContext/domain/identity/IdentityRepository.ts';
+import { IdentityAlreadyExistsError } from '#root/src/AuthContext/application/errors/IdentityAlreadyExistsError.ts';
+import { Identity } from '#root/src/AuthContext/domain/identity/Identity.ts';
+import { IdentityId } from '#root/src/AuthContext/domain/identity/IdentityId.ts';
+import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
+import { UserDatetime } from '#root/src/AuthContext/domain/user/UserDatetime.ts';
+import { PasswordHasher } from '#root/src/AuthContext/domain/services/PasswordHasher.ts';
 
 @injectable()
 export class LocalRegisterUserCommandHandler {
@@ -17,7 +18,9 @@ export class LocalRegisterUserCommandHandler {
     @inject(TYPES.UserRepository)
     private readonly userRepository: UserRepository,
     @inject(TYPES.IdentityRepository)
-    private readonly identityRepository: IdentityRepository
+    private readonly identityRepository: IdentityRepository,
+    @inject(TYPES.PasswordHasher)
+    private readonly passwordHasher: PasswordHasher
   ) {}
 
   async handle(command: LocalRegisterUserCommand): Promise<void> {
@@ -50,11 +53,12 @@ export class LocalRegisterUserCommandHandler {
   }
 
   private async createIdentity(command: LocalRegisterUserCommand, user: User): Promise<Identity> {
+    const password = await this.passwordHasher.hash(command.password);
     const identity = Identity.createFromLocal(
       IdentityId.generate(),
       user.id,
       command.getUserEmail(),
-      command.password
+      password
     );
 
     await this.identityRepository.save(identity);

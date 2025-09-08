@@ -7,4 +7,5 @@ export const TYPES = {
   GoogleAuthController: Symbol.for('GoogleAuthController'),
   GoogleRegisterUserCommandHandler: Symbol.for('GoogleRegisterUserCommandHandler'),
   JwtService: Symbol.for('JwtService'),
+  PasswordHasher: Symbol.for('PasswordHasher'),
 };

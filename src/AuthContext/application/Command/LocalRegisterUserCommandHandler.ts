@@ -24,17 +24,17 @@ export class LocalRegisterUserCommandHandler {
   ) {}
 
   async handle(command: LocalRegisterUserCommand): Promise<void> {
-    const existingIdentity = await this.identityRepository.findByEmail(command.email);
+    const existingIdentity = await this.identityRepository.findByEmail(command.getUserEmail());
     if (existingIdentity) {
       throw new IdentityAlreadyExistsError({
-        email: command.email,
+        email: command.getUserEmail().value,
       });
     }
 
-    const existingUser = await this.userRepository.findByEmail(command.email);
+    const existingUser = await this.userRepository.findByEmail(command.getUserEmail());
     if (existingUser) {
       throw new UserAlreadyExistsError({
-        email: command.email,
+        email: command.getUserEmail().value,
       });
     }
 

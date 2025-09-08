@@ -4,13 +4,14 @@ import { GoogleRegisterUserCommand } from '#root/src/AuthContext/application/Com
 import { UserRepository } from '#root/src/AuthContext/domain/user/UserRepository.ts';
 import { User } from '#root/src/AuthContext/domain/user/User';
 import { UserId } from '#root/src/AuthContext/domain/user/UserId.ts';
-import { IdentityRepository } from '../../domain/identity/IdentityRepository';
-import { Identity } from '../../domain/identity/Identity';
-import { UserDatetime } from '../../domain/user/UserDatetime';
-import { UserEmail } from '../../domain/user/UserEmail';
-import { IdentityProvider } from '../../domain/identity/IdentityProvider';
-import { IdentityId } from '../../domain/identity/IdentityId';
-import { EmailAlreadyRegisteredError } from '../errors/EmailAlreadyRegisteredError';
+import { IdentityRepository } from '#root/src/AuthContext/domain/identity/IdentityRepository.ts';
+import { Identity } from '#root/src/AuthContext/domain/identity/Identity.ts';
+import { UserDatetime } from '#root/src/AuthContext/domain/user/UserDatetime.ts';
+import { UserEmail } from '#root/src/AuthContext/domain/user/UserEmail.ts';
+import { IdentityProvider } from '#root/src/AuthContext/domain/identity/IdentityProvider.ts';
+import { IdentityId } from '#root/src/AuthContext/domain/identity/IdentityId.ts';
+import { EmailAlreadyRegisteredError } from '#root/src/AuthContext/application/errors/EmailAlreadyRegisteredError.ts';
+import { IdentityEmail } from '#root/src/AuthContext/domain/identity/IdentityEmail.ts';
 
 @injectable()
 export class GoogleRegisterUserCommandHandler {
@@ -33,7 +34,7 @@ export class GoogleRegisterUserCommandHandler {
       return user;
     }
 
-    const existingEmailIdentity = await this.identityRepository.findByEmail(command.email);
+    const existingEmailIdentity = await this.identityRepository.findByEmail(command.getEmail());
     if (existingEmailIdentity) {
       throw new EmailAlreadyRegisteredError({
         email: command.email,
@@ -45,7 +46,7 @@ export class GoogleRegisterUserCommandHandler {
     const identity = Identity.createFromGoogle(
       IdentityId.generate(),
       user.id,
-      UserEmail.generate(command.email),
+      command.getEmail(),
       IdentityProvider.fromProvider('google'),
       command.googleId
     );
@@ -61,7 +62,7 @@ export class GoogleRegisterUserCommandHandler {
   }
 
   private async getOrCreateUser(command: GoogleRegisterUserCommand): Promise<User> {
-    const existingUser = await this.userRepository.findByEmail(command.email);
+    const existingUser = await this.userRepository.findByEmail(command.getEmail());
     if (existingUser) {
       return existingUser;
     }
@@ -70,7 +71,7 @@ export class GoogleRegisterUserCommandHandler {
       UserId.generate(),
       command.name,
       command.avatar,
-      UserEmail.generate(command.email),
+      command.getEmail(),
       [],
       true,
       false,

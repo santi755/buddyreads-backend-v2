@@ -6,6 +6,7 @@ import { IdentityTransformer } from '../transformer/IdentityTransformer';
 import { identities } from '../schema/Identity.schema';
 import { Identity } from '#root/src/AuthContext/domain/identity/Identity';
 import { IdentityProvider } from '#root/src/AuthContext/domain/identity/IdentityProvider';
+import { IdentityEmail } from '#root/src/AuthContext/domain/identity/IdentityEmail.ts';
 
 @injectable()
 export class DrizzleIdentityRepository implements IdentityRepository {
@@ -19,11 +20,11 @@ export class DrizzleIdentityRepository implements IdentityRepository {
     await this.db.update(identities).set(IdentityTransformer.toPersistence(identity)).where(eq(identities.id, identity.id.value));
   }
 
-  async findByEmail(email: string): Promise<Identity | null> {
+  async findByEmail(email: IdentityEmail): Promise<Identity | null> {
     const result = await this.db
       .select()
       .from(identities)
-      .where(eq(identities.email, email))
+      .where(eq(identities.email, email.value))
       .limit(1);
 
     if (result.length === 0) {

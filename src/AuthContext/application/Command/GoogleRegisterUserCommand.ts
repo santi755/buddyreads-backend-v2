@@ -1,3 +1,5 @@
+import { IdentityEmail } from "#root/src/AuthContext/domain/identity/IdentityEmail.ts";
+
 export class GoogleRegisterUserCommand {
   constructor(
     public readonly googleId: string,
@@ -5,4 +7,8 @@ export class GoogleRegisterUserCommand {
     public readonly name: string,
     public readonly avatar: string
   ) {}
+
+  getEmail(): IdentityEmail {
+    return IdentityEmail.generate(this.email);
+  }
 }

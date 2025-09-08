@@ -19,6 +19,18 @@ export const authRoutes: RouteDefinition[] = [
     controller: TYPES.RegisterUserController,
   },
   {
+    method: 'post',
+    path: '/login',
+    controller: TYPES.LoginUserController,
+  },
+  /*
+  {
+    method: 'post',
+    path: '/logout',
+    controller: TYPES.LogoutUserController,
+  },
+  */
+  {
     method: 'get',
     path: '/google',
     controller: TYPES.GoogleAuthController,

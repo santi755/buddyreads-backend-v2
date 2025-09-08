@@ -1,6 +1,6 @@
 import { Container } from 'inversify';
 import type { UserRepository } from '#root/src/AuthContext/domain/user/UserRepository.ts';
-import { MongoUserRepository } from '#root/src/AuthContext/infrastructure/Repository/MongoUserRepository.ts';
+//import { MongoUserRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/MongoUserRepository.ts';
 import { DrizzleUserRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/DrizzleUserRepository.ts';
 import { TYPES } from '#root/src/AuthContext/infrastructure/dependency-injection/Tokens.ts';
 import { RegisterUserController } from '#root/src/AuthContext/infrastructure/http/controller/RegisterUserController.ts';
@@ -8,12 +8,14 @@ import { LocalRegisterUserCommandHandler } from '#root/src/AuthContext/applicati
 import { GoogleAuthController } from '#root/src/AuthContext/infrastructure/http/controller/GoogleAuthController.ts';
 import { GoogleRegisterUserCommandHandler } from '#root/src/AuthContext/application/Command/GoogleRegisterUserCommandHandler.ts';
 import { JwtService } from '#root/src/AuthContext/infrastructure/services/JwtService.ts';
-import { IdentityRepository } from '../../domain/identity/IdentityRepository.ts';
-import { RefreshTokenRepository } from '../../domain/refreshToken/RefreshTokenRepository.ts';
-import { DrizzleIdentityRepository } from '../../infrastructure/persistence/repository/DrizzleIdentityRepository.ts';
-import { DrizzleRefreshTokenRepository } from '../../infrastructure/persistence/repository/DrizzleRefreshTokenRepository.ts';
-import { PasswordHasher } from '../../domain/services/PasswordHasher.ts';
-import { Argon2PasswordHasher } from '../../infrastructure/services/Argon2PasswordHasher.ts';
+import { IdentityRepository } from '#root/src/AuthContext/domain/identity/IdentityRepository.ts';
+import { RefreshTokenRepository } from '#root/src/AuthContext/domain/refreshToken/RefreshTokenRepository.ts';
+import { DrizzleIdentityRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/DrizzleIdentityRepository.ts';
+import { DrizzleRefreshTokenRepository } from '#root/src/AuthContext/infrastructure/persistence/repository/DrizzleRefreshTokenRepository.ts';
+import { PasswordHasher } from '#root/src/AuthContext/domain/services/PasswordHasher.ts';
+import { Argon2PasswordHasher } from '#root/src/AuthContext/infrastructure/services/Argon2PasswordHasher.ts';
+import { LocalLoginUserCommandHandler } from '#root/src/AuthContext/application/Command/LocalLoginUserCommandHandler.ts';
+import { LoginUserController } from '#root/src/AuthContext/infrastructure/http/controller/LoginUserController.ts';
 
 export function bindAuthContextContext(container: Container) {
   container
@@ -27,6 +29,12 @@ export function bindAuthContextContext(container: Container) {
   container
     .bind<LocalRegisterUserCommandHandler>(TYPES.LocalRegisterUserCommandHandler)
     .to(LocalRegisterUserCommandHandler);
+  container
+    .bind<LocalLoginUserCommandHandler>(TYPES.LocalLoginUserCommandHandler)
+    .to(LocalLoginUserCommandHandler);
+  container
+    .bind<LoginUserController>(TYPES.LoginUserController)
+    .to(LoginUserController);
   container
     .bind<GoogleRegisterUserCommandHandler>(TYPES.GoogleRegisterUserCommandHandler)
     .to(GoogleRegisterUserCommandHandler);

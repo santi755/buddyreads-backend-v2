@@ -51,9 +51,7 @@ export class CryptoRefreshTokenService implements RefreshTokenService {
   }
 
   private generateSecureToken(): string {
-    // Generar bytes aleatorios criptográficamente seguros
     const buffer = crypto.randomBytes(this.tokenLength);
-    // Convertir a base64url (URL-safe)
     return buffer
       .toString('base64')
       .replace(/\+/g, '-')
@@ -62,12 +60,11 @@ export class CryptoRefreshTokenService implements RefreshTokenService {
   }
 
   private async hashToken(token: string): Promise<string> {
-    // Usar argon2 para hashear el token
     return await argon2.hash(token, {
       type: argon2.argon2id,
-      memoryCost: 2 ** 16, // 64 MB
-      timeCost: 3,         // 3 iteraciones
-      parallelism: 1,      // 1 hilo
+      memoryCost: 2 ** 16,
+      timeCost: 3,
+      parallelism: 1,
     });
   }
 

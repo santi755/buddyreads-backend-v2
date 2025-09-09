@@ -4,6 +4,8 @@ import { createPostgresConnection } from '#root/src/Shared/infrastructure/persis
 import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 import { bindAuthContextContext } from '#root/src/AuthContext/infrastructure/dependency-injection/AuthContextContainer.ts';
 import { WinstonLogger } from '#root/src/Shared/infrastructure/logger/winston/WinstonLogger.ts';
+import { RequestContextService } from '#root/src/Shared/domain/services/RequestContextService.ts';
+import { RequestContextMiddleware } from '#root/src/Shared/infrastructure/http/middleware/RequestContextMiddleware.ts';
 
 export async function createAppContainer() {
   try {
@@ -20,6 +22,10 @@ export async function createAppContainer() {
     const logger = new WinstonLogger();
     container.bind(TYPES.Logger).toConstantValue(logger); 
 
+    container.bind(TYPES.RequestContextService).to(RequestContextService);
+    container.bind(TYPES.RequestContextMiddleware).to(RequestContextMiddleware);
+
+    // Other contexts dependencies
     bindAuthContextContext(container);
 
     return container;

@@ -11,6 +11,8 @@ import { buildAuthRouter } from '#root/src/AuthContext/infrastructure/http/AuthC
 import { errorHandler } from '#root/src/Shared/application/ErrorHandler.ts';
 import { configureGoogleStrategy } from '#root/src/AuthContext/infrastructure/passport/PassportConfig.ts';
 import { createErrorLoggingMiddleware } from '#root/src/Shared/infrastructure/logger/winston/ErrorLogginMiddleware.ts';
+import { RequestContextMiddleware } from '#root/src/Shared/infrastructure/http/middleware/RequestContextMiddleware.ts';
+import { TYPES } from '#root/src/Shared/infrastructure/dependency-injection/Tokens.ts';
 
 process.on('uncaughtException', (error) => {
   console.error('❌ Uncaught Exception:', error);
@@ -53,7 +55,11 @@ async function startServer() {
     const container = await createAppContainer();
     configureGoogleStrategy(container);
 
-    // 5. Routes
+    // 5. Request context middleware
+    const requestContextMiddleware = container.get<RequestContextMiddleware>(TYPES.RequestContextMiddleware);
+    app.use(requestContextMiddleware.extractContext);
+
+    // 6. Routes
     buildAuthRouter(app, container);
 
     app.get('/health', (_req: Request, res: Response) => {
